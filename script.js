@@ -41,20 +41,32 @@ const addMember = (e) => {
 };
 
 const addGroup = (e) => {
-  groupContainer.innerHTML = '';
   e.preventDefault();
-  for (let i = 1; i <= groupNumber; i++) {
-    let groupDiv = document.createElement('div');
-    groupDiv.className = 'p-3 border rounded-md w-max';
+  groupContainer.innerHTML = '';
+  const memberElements = Array.from(memberList.getElementsByTagName('li'));
 
-    let groupTitleNumber = document.createElement('h2');
-    groupTitleNumber.textContent = `Groupe ${i}`;
+  if (groupNumber >= memberElements.length) {
+    console.log('pijg');
+    let ErrorMsg = document.createElement('h3');
+    ErrorMsg.className = 'text-red-500';
+    ErrorMsg.textContent = 'Trop de groupes pour le nombre de membres';
+    groupContainer.appendChild(ErrorMsg);
+    console.log(ErrorMsg);
+  } else {
+    for (let i = 1; i <= groupNumber; i++) {
+      let groupDiv = document.createElement('div');
+      groupDiv.className = 'p-3 border rounded-md w-max';
 
-    let memberGroup = document.createElement('li');
-    memberGroup.textContent = 'Membre';
+      let groupTitleNumber = document.createElement('h2');
+      groupTitleNumber.textContent = `Groupe ${i}`;
 
-    groupDiv.appendChild(groupTitleNumber);
-    groupDiv.appendChild(memberGroup);
-    groupContainer.appendChild(groupDiv);
+      let memberGroup = document.createElement('ul');
+
+      //   ajouter les membres au groupe de manière aléatoire
+
+      groupDiv.appendChild(groupTitleNumber);
+      groupDiv.appendChild(memberGroup);
+      groupContainer.appendChild(groupDiv);
+    }
   }
 };
