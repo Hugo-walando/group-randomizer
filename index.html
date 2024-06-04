@@ -10,6 +10,13 @@
     </head>
     <body>
         <form>
+            <input class="p-1 border rounded-md" type="text" maxlength="16"
+                   id="member-name">
+            <button type="submit" id="submit-member-btn">Ajouter</button>
+        </form>
+        <div class="border rounded-md" id="member-list">
+        </div>
+        <form>
             <label for="group-number">Nombre de groupes</label>
             <select id="group-number">
                 <option value="1">1</option>
@@ -23,8 +30,7 @@
                 <option value="9">9</option>
                 <option value="10">10</option>
             </select>
-            <input type="text" maxlength="16" id="member-name">
-            <button type="submit" id="submit-btn">Créer </button>
+            <button type="submit" id="submit-group-btn">Créer </button>
         </form>
         <div class="w-full " id="group-container">
         </div>

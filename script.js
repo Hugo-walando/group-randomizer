@@ -1,7 +1,9 @@
 let groupNumberSelect = document.querySelector('#group-number');
-const memberName = document.querySelector('#member-name');
+const memberNameInput = document.querySelector('#member-name');
 const groupContainer = document.querySelector('#group-container');
-let submitBtn = document.querySelector('#submit-btn');
+const memberList = document.querySelector('#member-list');
+const submitGroupBtn = document.querySelector('#submit-group-btn');
+const submitMemberBtn = document.querySelector('#submit-member-btn');
 let groupNumber = groupNumberSelect.value;
 
 groupNumberSelect.addEventListener('change', (e) => {
@@ -9,7 +11,36 @@ groupNumberSelect.addEventListener('change', (e) => {
   console.log(groupNumber);
 });
 
-submitBtn.addEventListener('click', (e) => {
+submitGroupBtn.addEventListener('click', (e) => {
+  addGroup(e);
+});
+
+submitMemberBtn.addEventListener('click', (e) => {
+  addMember(e);
+  console.log(memberNameInput.value);
+  memberNameInput.value = '';
+});
+
+const addMember = (e) => {
+  e.preventDefault();
+  let memberDiv = document.createElement('div');
+  memberDiv.className = 'm-2 p-1 flex w-full justify-between';
+
+  let memberName = document.createElement('li');
+  memberName.textContent = memberNameInput.value;
+
+  let delBtn = document.createElement('button');
+  delBtn.textContent = 'Suppr';
+  delBtn.addEventListener('click', () => {
+    memberDiv.remove();
+  });
+
+  memberDiv.appendChild(memberName);
+  memberDiv.appendChild(delBtn);
+  memberList.appendChild(memberDiv);
+};
+
+const addGroup = (e) => {
   groupContainer.innerHTML = '';
   e.preventDefault();
   for (let i = 1; i <= groupNumber; i++) {
@@ -20,10 +51,10 @@ submitBtn.addEventListener('click', (e) => {
     groupTitleNumber.textContent = `Groupe ${i}`;
 
     let memberGroup = document.createElement('li');
-    memberGroup.textContent = memberName.value;
+    memberGroup.textContent = 'Membre';
 
     groupDiv.appendChild(groupTitleNumber);
     groupDiv.appendChild(memberGroup);
     groupContainer.appendChild(groupDiv);
   }
-});
+};
