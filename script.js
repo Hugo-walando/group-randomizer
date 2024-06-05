@@ -6,6 +6,7 @@ const submitGroupBtn = document.querySelector('#submit-group-btn');
 const submitMemberBtn = document.querySelector('#submit-member-btn');
 let groupNumber = groupNumberSelect.value;
 let memberArray = [];
+let noMemberMsg;
 
 groupNumberSelect.addEventListener('change', (e) => {
   groupNumber = e.currentTarget.value;
@@ -20,18 +21,37 @@ submitMemberBtn.addEventListener('click', (e) => {
   memberNameInput.value = '';
 });
 
+const checkNoMember = () => {
+  if (memberArray.length == 0) {
+    noMemberMsg = document.createElement('h3');
+    noMemberMsg.className = 'text-lightest font-jakarta';
+    noMemberMsg.textContent = 'Aucun membres ...';
+    memberList.appendChild(noMemberMsg);
+    console.log('yes');
+  }
+};
+
+checkNoMember();
+
 const addMember = (e) => {
   e.preventDefault();
+
+  if (noMemberMsg) {
+    noMemberMsg.remove();
+  }
+
   if (memberNameInput.value.length) {
     let memberDiv = document.createElement('div');
-    memberDiv.className = 'm-2 p-1 flex w-full justify-between';
+    memberDiv.className = 'flex my-2 w-full justify-between';
 
     let memberName = document.createElement('li');
     memberName.textContent = memberNameInput.value;
+    memberName.className = 'text-white font-jakarta';
     memberArray.push(memberName.textContent);
 
     let delBtn = document.createElement('button');
-    delBtn.textContent = 'Suppr';
+    delBtn.innerHTML = '<i class="fa-solid fa-trash-can"></i>';
+    delBtn.className = 'text-white';
     delBtn.addEventListener('click', () => {
       memberArray.forEach((member) => {
         if (member == memberName.textContent) {
@@ -39,6 +59,8 @@ const addMember = (e) => {
         }
       });
       memberDiv.remove();
+      checkNoMember();
+
       console.log(memberArray);
     });
 
@@ -56,10 +78,15 @@ const addGroup = (e) => {
   const memberElements = Array.from(memberList.getElementsByTagName('li'));
 
   if (groupNumber >= memberElements.length) {
+    let ErrorDiv = document.createElement('div');
+    ErrorDiv.className =
+      'bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative';
     let ErrorMsg = document.createElement('h3');
-    ErrorMsg.className = 'text-red-500';
+    ErrorMsg.className = 'font-bold';
     ErrorMsg.textContent = 'Trop de groupes pour le nombre de membres';
-    groupContainer.appendChild(ErrorMsg);
+
+    ErrorDiv.appendChild(ErrorMsg);
+    groupContainer.appendChild(ErrorDiv);
   } else {
     let groups = [];
     for (let i = 0; i < groupNumber; i++) {

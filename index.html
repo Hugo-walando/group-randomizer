@@ -7,33 +7,72 @@
         <script src="https://cdn.tailwindcss.com"></script>
         <script src="https://kit.fontawesome.com/05e4dc2a7f.js"
                 crossorigin="anonymous"></script>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap"
+              rel="stylesheet">
+        <script>
+            tailwind.config = {
+                theme: {
+                    extend: {
+                        colors: {
+                            dark_back: "#1E1F22",
+                            back: "#2b2d31",
+                            light_back: "#404249",
+                            lightest: "#80848E",
+                        },
+                        fontFamily: {
+                            jakarta: '"Plus Jakarta Sans", sans-serif'
+                        }
+
+                    }
+                }
+
+            }
+        </script>
     </head>
-    <body>
-        <form>
-            <input class="p-1 border rounded-md" type="text" maxlength="16"
-                   id="member-name">
-            <button type="submit" id="submit-member-btn">Ajouter</button>
-        </form>
-        <div class="border rounded-md" id="member-list">
-        </div>
-        <form>
-            <label for="group-number">Nombre de groupes</label>
-            <select id="group-number">
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-                <option value="7">7</option>
-                <option value="8">8</option>
-                <option value="9">9</option>
-                <option value="10">10</option>
-            </select>
-            <button type="submit" id="submit-group-btn">Créer </button>
-        </form>
-        <div class="w-full " id="group-container">
-        </div>
-        <script src="script.js"></script>
+    <body class="bg-dark_back">
+        <main
+              class="bg-back w-full lg:w-8/12 p-8 rounded-xl mx-auto mt-20 flex justify-center gap-12">
+            <div>
+                <form class="text-nowrap">
+                    <input class="px-3 py-1 rounded-lg bg-dark_back border-none focus:outline-none text-white h-10 w-[300px]"
+                           type="text" maxlength="16" placeholder="Pseudo ..."
+                           id="member-name">
+                    <button type="submit" id="submit-member-btn"
+                            class="text-white px-2 py-1 rounded-md hover:bg-light_back"><i
+                           class="fa-solid fa-plus text-lg"></i></button>
+                </form>
+                <div class="bg-dark_back rounded-lg mt-2 p-3" id="member-list">
+                </div>
+            </div>
+            <div class="w-full">
+                <form class="flex w-full justify-between">
+                    <div class="bg-light_back px-4 py-1 rounded-md text-nowrap">
+                        <label for="group-number"
+                               class="font-jakarta text-white ">Nombre de
+                            groupes</label>
+                        <select id="group-number"
+                                class="rounded-md bg-dark_back p-1 text-white">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                        </select>
+                    </div>
+                    <button type="submit" id="submit-group-btn"
+                            class="font-jakarta text-white">Créer </button>
+                </form>
+                <div class="w-full " id="group-container">
+                </div>
+                <script src="script.js"></script>
+            </div>
+        </main>
     </body>
 </html>
