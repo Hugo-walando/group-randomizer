@@ -5,10 +5,10 @@ const memberList = document.querySelector('#member-list');
 const submitGroupBtn = document.querySelector('#submit-group-btn');
 const submitMemberBtn = document.querySelector('#submit-member-btn');
 let groupNumber = groupNumberSelect.value;
+let memberArray = [];
 
 groupNumberSelect.addEventListener('change', (e) => {
   groupNumber = e.currentTarget.value;
-  console.log(groupNumber);
 });
 
 submitGroupBtn.addEventListener('click', (e) => {
@@ -17,56 +17,92 @@ submitGroupBtn.addEventListener('click', (e) => {
 
 submitMemberBtn.addEventListener('click', (e) => {
   addMember(e);
-  console.log(memberNameInput.value);
   memberNameInput.value = '';
 });
 
 const addMember = (e) => {
   e.preventDefault();
-  let memberDiv = document.createElement('div');
-  memberDiv.className = 'm-2 p-1 flex w-full justify-between';
+  if (memberNameInput.value.length) {
+    let memberDiv = document.createElement('div');
+    memberDiv.className = 'm-2 p-1 flex w-full justify-between';
 
-  let memberName = document.createElement('li');
-  memberName.textContent = memberNameInput.value;
+    let memberName = document.createElement('li');
+    memberName.textContent = memberNameInput.value;
+    memberArray.push(memberName.textContent);
 
-  let delBtn = document.createElement('button');
-  delBtn.textContent = 'Suppr';
-  delBtn.addEventListener('click', () => {
-    memberDiv.remove();
-  });
+    let delBtn = document.createElement('button');
+    delBtn.textContent = 'Suppr';
+    delBtn.addEventListener('click', () => {
+      memberArray.forEach((member) => {
+        if (member == memberName.textContent) {
+          memberArray.splice(memberArray.indexOf(member), 1);
+        }
+      });
+      memberDiv.remove();
+      console.log(memberArray);
+    });
 
-  memberDiv.appendChild(memberName);
-  memberDiv.appendChild(delBtn);
-  memberList.appendChild(memberDiv);
+    memberDiv.appendChild(memberName);
+    memberDiv.appendChild(delBtn);
+    memberList.appendChild(memberDiv);
+    console.log(memberArray);
+  }
 };
 
 const addGroup = (e) => {
   e.preventDefault();
   groupContainer.innerHTML = '';
+  shuffleArray(memberArray);
   const memberElements = Array.from(memberList.getElementsByTagName('li'));
 
   if (groupNumber >= memberElements.length) {
-    console.log('pijg');
     let ErrorMsg = document.createElement('h3');
     ErrorMsg.className = 'text-red-500';
     ErrorMsg.textContent = 'Trop de groupes pour le nombre de membres';
     groupContainer.appendChild(ErrorMsg);
-    console.log(ErrorMsg);
   } else {
-    for (let i = 1; i <= groupNumber; i++) {
+    let groups = [];
+    for (let i = 0; i < groupNumber; i++) {
+      groups.push([]);
+    }
+
+    // Ajouter les membres aux groupes
+    memberArray.forEach((member, index) => {
+      groups[index % groupNumber].push(member);
+      console.log(groups);
+    });
+
+    groups.forEach((group, index) => {
       let groupDiv = document.createElement('div');
-      groupDiv.className = 'p-3 border rounded-md w-max';
+      groupDiv.className = 'p-3 border rounded-md w-max m-2';
 
       let groupTitleNumber = document.createElement('h2');
-      groupTitleNumber.textContent = `Groupe ${i}`;
+      groupTitleNumber.textContent = `Groupe ${index + 1}`;
 
       let memberGroup = document.createElement('ul');
-
-      //   ajouter les membres au groupe de manière aléatoire
+      group.forEach((member) => {
+        let memberItem = document.createElement('li');
+        memberItem.textContent = member;
+        memberGroup.appendChild(memberItem);
+      });
 
       groupDiv.appendChild(groupTitleNumber);
       groupDiv.appendChild(memberGroup);
       groupContainer.appendChild(groupDiv);
-    }
+    });
   }
+};
+
+const shuffleArray = (arr) => {
+  let currentIndex = arr.length;
+  while (currentIndex != 0) {
+    let randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+
+    [arr[currentIndex], arr[randomIndex]] = [
+      arr[randomIndex],
+      arr[currentIndex],
+    ];
+  }
+  return arr;
 };
